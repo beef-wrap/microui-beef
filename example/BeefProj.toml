@@ -1,0 +1,10 @@
+FileVersion = 1
+Dependencies = {corlib = "*", microui-beef = "*", SDL2 = "*", raylib-beef = "*"}
+
+[Project]
+Name = "example"
+TargetType = "BeefGUIApplication"
+StartupObject = "example.Program"
+
+[Configs.Debug.Win64]
+CLibType = "DynamicDebug"
