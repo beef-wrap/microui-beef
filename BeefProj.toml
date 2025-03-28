@@ -2,9 +2,10 @@ FileVersion = 1
 
 [Project]
 Name = "microui-beef"
-TargetType = "BeefLib"
-StartupObject = "microui_beef.Program"
+DefaultNamespace = "microui"
 
 [Configs.Debug.Win64]
-CLibType = "DynamicDebug"
-LibPaths = ["$(ProjectDir)\\libs\\microui-windows.lib"]
+LibPaths = ["$(ProjectDir)\\libs\\windows\\x64\\microui_d.lib"]
+
+[Configs.Release.Win64]
+LibPaths = ["$(ProjectDir)\\libs\\windows\\x64\\microui.lib"]

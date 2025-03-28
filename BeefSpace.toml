@@ -1,5 +1,5 @@
 FileVersion = 1
-Projects = {microui-beef = {Path = "."}, example = {Path = "example"}, SDL2 = {Path = "../Beef/BeefLibs/SDL2"}, raylib-beef = {Path = "../raylib-beef/raylib-beef"}}
+Projects = {microui-beef = {Path = "."}, example = {Path = "example"}, raylib-beef = {Path = "../../raylib-beef/raylib-beef"}}
 
 [Workspace]
 StartupProject = "example"

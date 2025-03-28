@@ -7,7 +7,7 @@ namespace example;
 
 static class ExampleRaylib
 {
-	static mu_Context* ctx = new .() ~ delete ctx;
+	static mu_Context ctx;
 	//static RaylibBeef.Font font;
 	static String win_title = "My Window";
 
@@ -30,11 +30,11 @@ static class ExampleRaylib
 
 	public static void Init()
 	{
-		mu_init(ctx);
+		mu_init(&ctx);
 		SetTargetFPS(60);
-		SetConfigFlags(RaylibBeef.ConfigFlags.FlagMsaa4XHint);
+		SetConfigFlags(RaylibBeef.ConfigFlags.FLAG_MSAA_4X_HINT);
 		InitWindow(640, 480, scope $"microui-raylib-beef");
-		SetWindowState(.FlagWindowResizable);
+		SetWindowState(.FLAG_WINDOW_RESIZABLE);
 
 #if BF_PLATFORM_WASM
 		emscripten_set_main_loop(=> EmscriptenMainLoop, 0, 1);
@@ -58,36 +58,36 @@ static class ExampleRaylib
 		ctx.text_width = (font, str, len) => 10;
 		ctx.text_height = (font) => 10;
 
-		mu_input_mousemove(ctx, (.)mousePos.x, (.)mousePos.y);
+		mu_input_mousemove(&ctx, (.)mousePos.x, (.)mousePos.y);
 
-		mu_input_scroll(ctx, (.)GetMouseWheelMoveV().x, (.)GetMouseWheelMoveV().x);
+		mu_input_scroll(&ctx, (.)GetMouseWheelMoveV().x, (.)GetMouseWheelMoveV().x);
 
-		if (IsMouseButtonPressed(.MouseButtonLeft))
+		if (IsMouseButtonPressed(.MOUSE_BUTTON_LEFT))
 		{
-			mu_input_mousedown(ctx, (.)mousePos.x, (.)mousePos.y, (.)mu_mouse_button.MU_MOUSE_LEFT);
+			mu_input_mousedown(&ctx, (.)mousePos.x, (.)mousePos.y, (.)mu_mouse_button.MU_MOUSE_LEFT);
 		}
-		if (IsMouseButtonUp(.MouseButtonLeft))
+		if (IsMouseButtonUp(.MOUSE_BUTTON_LEFT))
 		{
-			mu_input_mouseup(ctx, (.)mousePos.x, (.)mousePos.y, (.)mu_mouse_button.MU_MOUSE_LEFT);
+			mu_input_mouseup(&ctx, (.)mousePos.x, (.)mousePos.y, (.)mu_mouse_button.MU_MOUSE_LEFT);
 		}
 
-		mu_begin(ctx);
+		mu_begin(&ctx);
 
-		if (mu_begin_window_ex(ctx, "Style Editor", mu_rect(10, 10, 140, 86), 0) != 0)
+		if (mu_begin_window_ex(&ctx, "Style Editor", mu_rect(10, 10, 140, 86), 0) != 0)
 		{
-			if (mu_button_ex(ctx, "Button1", 0, (.)mu_option.MU_OPT_ALIGNCENTER) != 0)
+			if (mu_button_ex(&ctx, "Button1", 0, (.)mu_option.MU_OPT_ALIGNCENTER) != 0)
 			{
 				Debug.WriteLine("Button1 pressed\n");
 			}
 
-			mu_end_window(ctx);
+			mu_end_window(&ctx);
 		}
 
-		mu_end(ctx);
+		mu_end(&ctx);
 
 		mu_Command* cmd = null;
 
-		while (mu_next_command(ctx, &cmd) != 0)
+		while (mu_next_command(&ctx, &cmd) != 0)
 		{
 			switch ((mu_command)cmd.type) {
 			case .MU_COMMAND_TEXT:

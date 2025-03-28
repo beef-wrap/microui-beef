@@ -48,30 +48,34 @@ namespace microui_Beef;
 
 public static class microui
 {
-	const String MU_VERSION = "2.02";
+	typealias char = c_char;
+	
+	const char* MU_VERSION 				= "2.02";
 
-	const int MU_COMMANDLIST_SIZE     = (256 * 1024);
-	const int MU_ROOTLIST_SIZE        = 32;
-	const int MU_CONTAINERSTACK_SIZE  = 32;
-	const int MU_CLIPSTACK_SIZE       = 32;
-	const int MU_IDSTACK_SIZE         = 32;
-	const int MU_LAYOUTSTACK_SIZE     = 16;
-	const int MU_CONTAINERPOOL_SIZE   = 48;
-	const int MU_TREENODEPOOL_SIZE    = 48;
-	const int MU_MAX_WIDTHS           = 16;
-	const int MU_MAX_FMT              = 127;
+	const c_int MU_COMMANDLIST_SIZE     = (256 * 1024);
+	const c_int MU_ROOTLIST_SIZE        = 32;
+	const c_int MU_CONTAINERSTACK_SIZE  = 32;
+	const c_int MU_CLIPSTACK_SIZE       = 32;
+	const c_int MU_IDSTACK_SIZE         = 32;
+	const c_int MU_LAYOUTSTACK_SIZE     = 16;
+	const c_int MU_CONTAINERPOOL_SIZE   = 48;
+	const c_int MU_TREENODEPOOL_SIZE    = 48;
+	const c_int MU_MAX_WIDTHS           = 16;
+	const char* MU_REAL_FMT           	= "%.3g";
+	const char* MU_SLIDER_FMT         	= "%.2f";
+	const c_int MU_MAX_FMT              = 127;
 
 	public typealias mu_Id = c_uint;
 	public typealias mu_Real = float;
 	public typealias mu_Font = void*;
 
-	public enum mu_clip
+	public enum mu_clip : c_int
 	{
 		MU_CLIP_PART = 1,
 		MU_CLIP_ALL
-	};
+	}
 
-	public enum mu_command
+	public enum mu_command : c_int
 	{
 		MU_COMMAND_JUMP = 1,
 		MU_COMMAND_CLIP,
@@ -79,9 +83,9 @@ public static class microui
 		MU_COMMAND_TEXT,
 		MU_COMMAND_ICON,
 		MU_COMMAND_MAX
-	};
+	}
 
-	public enum mu_color
+	public enum mu_color : c_int
 	{
 		MU_COLOR_TEXT,
 		MU_COLOR_BORDER,
@@ -98,27 +102,27 @@ public static class microui
 		MU_COLOR_SCROLLBASE,
 		MU_COLOR_SCROLLTHUMB,
 		MU_COLOR_MAX
-	};
+	}
 
 	//const int MU_COLOR_MAX = (.)mu_color.MU_COLOR_SCROLLTHUMB + 1;
 
-	public enum mu_icon
+	public enum mu_icon : c_int
 	{
 		MU_ICON_CLOSE = 1,
 		MU_ICON_CHECK,
 		MU_ICON_COLLAPSED,
 		MU_ICON_EXPANDED,
 		MU_ICON_MAX
-	};
+	}
 
-	public enum mu_result
+	public enum mu_result : c_int
 	{
 		MU_RES_ACTIVE       = 0,
 		MU_RES_SUBMIT       = 1,
 		MU_RES_CHANGE       = _ * 2
-	};
+	}
 
-	public enum mu_option
+	public enum mu_option : c_int
 	{
 		MU_OPT_ALIGNCENTER  = 1,
 		MU_OPT_ALIGNRIGHT   = _ * 2,
@@ -133,85 +137,95 @@ public static class microui
 		MU_OPT_POPUP        = _ * 2,
 		MU_OPT_CLOSED       = _ * 2,
 		MU_OPT_EXPANDED     = _ * 2
-	};
+	}
 
-	public enum mu_mouse_button
+	public enum mu_mouse_button : c_int
 	{
 		MU_MOUSE_LEFT       = 1,
 		MU_MOUSE_RIGHT      = _ * 2,
 		MU_MOUSE_MIDDLE     = _ * 2
-	};
+	}
 
-	public enum mu_key_modifier
+	public enum mu_key_modifier : c_int
 	{
 		MU_KEY_SHIFT        = 1,
 		MU_KEY_CTRL         = _ * 2,
 		MU_KEY_ALT          = _ * 2,
 		MU_KEY_BACKSPACE    = _ * 2,
 		MU_KEY_RETURN       = _ * 2
-	};
+	}
 
-	[CRepr] public struct mu_Vec2
+	[CRepr]
+	public struct mu_Vec2
 	{
 		public c_int x, y;
-	};
+	}
 
-	[CRepr] public struct mu_Rect
+	[CRepr]
+	public struct mu_Rect
 	{
 		public c_int x, y, w, h;
-	};
+	}
 
-	[CRepr] public struct mu_Color
+	[CRepr]
+	public struct mu_Color
 	{
 		public c_uchar r, g, b, a;
-	};
+	}
 
-	[CRepr] public struct mu_PoolItem
+	[CRepr]
+	public struct mu_PoolItem
 	{
 		public mu_Id id;
 		public c_int last_update;
-	};
+	}
 
-	[CRepr] public struct mu_BaseCommand
+	[CRepr]
+	public struct mu_BaseCommand
 	{
 		public c_int type, size;
-	};
+	}
 
-	[CRepr] public struct mu_JumpCommand
+	[CRepr]
+	public struct mu_JumpCommand
 	{
 		public mu_BaseCommand base_cmd;
 		public void* dst;
-	};
+	}
 
-	[CRepr] public struct mu_ClipCommand
+	[CRepr]
+	public struct mu_ClipCommand
 	{
 		public mu_BaseCommand base_cmd;
 		public mu_Rect rect;
-	};
+	}
 
-	[CRepr] public struct mu_RectCommand
+	[CRepr]
+	public struct mu_RectCommand
 	{
 		public mu_BaseCommand base_cmd;
 		public mu_Rect rect;
 		public mu_Color color;
-	};
+	}
 
-	[CRepr] public struct mu_TextCommand
+	[CRepr]
+	public struct mu_TextCommand
 	{
 		public mu_BaseCommand base_cmd;
 		public void* font;
 		public mu_Vec2 pos;
 		public mu_Color color;
-		public c_char[1] str;
-	};
+		public char[1] str;
+	}
 
-	[CRepr] public struct mu_IconCommand
+	[CRepr]
+	public struct mu_IconCommand
 	{
 		public mu_BaseCommand base_cmd;
 		public mu_Rect rect;
 		public c_int id;
 		public mu_Color color;
-	};
+	}
 
 	[CRepr, Union]
 	public struct mu_Command
@@ -223,7 +237,7 @@ public static class microui
 		public mu_RectCommand rect;
 		public mu_TextCommand text;
 		public mu_IconCommand icon;
-	};
+	}
 
 	[CRepr]
 	public struct mu_Layout
@@ -239,7 +253,7 @@ public static class microui
 		public c_int next_row;
 		public c_int next_type;
 		public c_int indent;
-	};
+	}
 
 	[CRepr]
 	public struct mu_Container
@@ -251,7 +265,7 @@ public static class microui
 		public mu_Vec2 scroll;
 		public c_int zindex;
 		public c_int open;
-	};
+	}
 
 	[CRepr]
 	public struct mu_Style
@@ -265,27 +279,13 @@ public static class microui
 		public c_int scrollbar_size;
 		public c_int thumb_size;
 		public mu_Color[(.)mu_color.MU_COLOR_MAX] colors;
-	};
-
-	[CRepr]
-	public struct mu_RootList
-	{
-		public c_int idx;
-		public mu_Container*[MU_ROOTLIST_SIZE] items;
-	};
-
-	[CRepr]
-	public struct mu_ContainerStack
-	{
-		public c_int idx;
-		public mu_Container*[MU_CONTAINERSTACK_SIZE] items;
 	}
-
+	
 	[CRepr]
 	public struct mu_Context
 	{
 		/* callbacks */
-		public function c_int(mu_Font font, c_char* str, c_int len) text_width;
+		public function c_int(mu_Font font, char* str, c_int len) text_width;
 		public function c_int(mu_Font font) text_height;
 		public function void(mu_Context* ctx, mu_Rect rect, c_int colorid) draw_frame;
 		/* core state */
@@ -304,9 +304,9 @@ public static class microui
 		public char8[MU_MAX_FMT] number_edit_buf;
 		public mu_Id number_edit;
 		/* stacks */
-		public struct { c_int idx; c_char[MU_COMMANDLIST_SIZE] items; } command_list;
-		public mu_RootList root_list; // TODO figure out why sizeof(mu_Context) is off when mu_RootList/mu_Container are an inline anonymous structs. Something to do with ptrs? Interestingly only the last one affects this
-		public mu_ContainerStack container_stack;
+		public struct { c_int idx; char[MU_COMMANDLIST_SIZE] items; } command_list;
+		public struct { c_int idx; mu_Container*[MU_ROOTLIST_SIZE] items;} root_list; // TODO figure out why sizeof(mu_Context) is off when mu_RootList/mu_Container are an inline anonymous structs. Something to do with ptrs? Interestingly only the last one affects this
+		public struct { c_int idx; mu_Container*[MU_CONTAINERSTACK_SIZE] items;	} container_stack;
 		public struct { c_int idx; mu_Rect[MU_CLIPSTACK_SIZE] items; } clip_stack;
 		public struct { c_int idx; mu_Id[MU_IDSTACK_SIZE] items; } id_stack;
 		public struct { c_int idx; mu_Layout[MU_LAYOUTSTACK_SIZE] items; } layout_stack;
@@ -323,12 +323,12 @@ public static class microui
 		public c_int mouse_pressed;
 		public c_int key_down;
 		public c_int key_pressed;
-		public c_char[32] input_text;
-	};
+		public char[32] input_text;
+	}
 
-	[CLink] public static extern mu_Vec2 mu_vec2(int x, c_int y);
-	[CLink] public static extern mu_Rect mu_rect(int x, c_int y, c_int w, c_int h);
-	[CLink] public static extern mu_Color mu_color(int r, c_int g, c_int b, c_int a);
+	[CLink] public static extern mu_Vec2 mu_vec2(c_int x, c_int y);
+	[CLink] public static extern mu_Rect mu_rect(c_int x, c_int y, c_int w, c_int h);
+	[CLink] public static extern mu_Color mu_color(c_int r, c_int g, c_int b, c_int a);
 
 	[CLink] public static extern void mu_init(mu_Context* ctx);
 	[CLink] public static extern void mu_begin(mu_Context* ctx);
@@ -342,7 +342,7 @@ public static class microui
 	[CLink] public static extern mu_Rect mu_get_clip_rect(mu_Context* ctx);
 	[CLink] public static extern c_int mu_check_clip(mu_Context* ctx, mu_Rect r);
 	[CLink] public static extern mu_Container* mu_get_current_container(mu_Context* ctx);
-	[CLink] public static extern mu_Container* mu_get_container(mu_Context* ctx, c_char* name);
+	[CLink] public static extern mu_Container* mu_get_container(mu_Context* ctx, char* name);
 	[CLink] public static extern void mu_bring_to_front(mu_Context* ctx, mu_Container* cnt);
 
 	[CLink] public static extern c_int mu_pool_init(mu_Context* ctx, mu_PoolItem* items, c_int len, mu_Id id);
@@ -355,14 +355,14 @@ public static class microui
 	[CLink] public static extern void mu_input_scroll(mu_Context* ctx, c_int x, c_int y);
 	[CLink] public static extern void mu_input_keydown(mu_Context* ctx, c_int key);
 	[CLink] public static extern void mu_input_keyup(mu_Context* ctx, c_int key);
-	[CLink] public static extern void mu_input_text(mu_Context* ctx, c_char* text);
+	[CLink] public static extern void mu_input_text(mu_Context* ctx, char* text);
 
 	[CLink] public static extern mu_Command* mu_push_command(mu_Context* ctx, c_int type, c_int size);
 	[CLink] public static extern c_int mu_next_command(mu_Context* ctx, mu_Command** cmd);
 	[CLink] public static extern void mu_set_clip(mu_Context* ctx, mu_Rect rect);
 	[CLink] public static extern void mu_draw_rect(mu_Context* ctx, mu_Rect rect, mu_Color color);
 	[CLink] public static extern void mu_draw_box(mu_Context* ctx, mu_Rect rect, mu_Color color);
-	[CLink] public static extern void mu_draw_text(mu_Context* ctx, mu_Font font, c_char* str, c_int len, mu_Vec2 pos, mu_Color color);
+	[CLink] public static extern void mu_draw_text(mu_Context* ctx, mu_Font font, char* str, c_int len, mu_Vec2 pos, mu_Color color);
 	[CLink] public static extern void mu_draw_icon(mu_Context* ctx, c_int id, mu_Rect rect, mu_Color color);
 
 	[CLink] public static extern void mu_layout_row(mu_Context* ctx, c_int items, c_int* widths, c_int height);
@@ -374,35 +374,66 @@ public static class microui
 	[CLink] public static extern mu_Rect mu_layout_next(mu_Context* ctx);
 
 	[CLink] public static extern void mu_draw_control_frame(mu_Context* ctx, mu_Id id, mu_Rect rect, c_int colorid, c_int opt);
-	[CLink] public static extern void mu_draw_control_text(mu_Context* ctx, c_char* str, mu_Rect rect, c_int colorid, c_int opt);
+	[CLink] public static extern void mu_draw_control_text(mu_Context* ctx, char* str, mu_Rect rect, c_int colorid, c_int opt);
 	[CLink] public static extern c_int mu_mouse_over(mu_Context* ctx, mu_Rect rect);
 	[CLink] public static extern void mu_update_control(mu_Context* ctx, mu_Id id, mu_Rect rect, c_int opt);
 
-	// #define mu_button(ctx, label)             mu_button_ex(ctx, label, 0, MU_OPT_ALIGNCENTER)
-	// #define mu_textbox(ctx, buf, bufsz)       mu_textbox_ex(ctx, buf, bufsz, 0)
-	// #define mu_slider(ctx, value, lo, hi)     mu_slider_ex(ctx, value, lo, hi, 0, MU_SLIDER_FMT, MU_OPT_ALIGNCENTER)
-	// #define mu_number(ctx, value, step)       mu_number_ex(ctx, value, step, MU_SLIDER_FMT, MU_OPT_ALIGNCENTER)
-	// #define mu_header(ctx, label)             mu_header_ex(ctx, label, 0)
-	// #define mu_begin_treenode(ctx, label)     mu_begin_treenode_ex(ctx, label, 0)
-	// #define mu_begin_window(ctx, title, rect) mu_begin_window_ex(ctx, title, rect, 0)
-	// #define mu_begin_panel(ctx, name)         mu_begin_panel_ex(ctx, name, 0)
+	public static mixin mu_button(mu_Context* ctx, char* label)
+	{
+		mu_button_ex(ctx, label, 0, (.)mu_option.MU_OPT_ALIGNCENTER);
+	}
 
-	[CLink] public static extern void mu_text(mu_Context* ctx, c_char* text);
-	[CLink] public static extern void mu_label(mu_Context* ctx, c_char* text);
-	[CLink] public static extern c_int mu_button_ex(mu_Context* ctx, c_char* label, c_int icon, c_int opt);
-	[CLink] public static extern c_int mu_checkbox(mu_Context* ctx, c_char* label, c_int* state);
-	[CLink] public static extern c_int mu_textbox_raw(mu_Context* ctx, c_char* buf, c_int bufsz, mu_Id id, mu_Rect r, c_int opt);
-	[CLink] public static extern c_int mu_textbox_ex(mu_Context* ctx, c_char* buf, c_int bufsz, c_int opt);
-	[CLink] public static extern c_int mu_slider_ex(mu_Context* ctx, mu_Real* value, mu_Real low, mu_Real high, mu_Real step, c_char* fmt, c_int opt);
-	[CLink] public static extern c_int mu_number_ex(mu_Context* ctx, mu_Real* value, mu_Real step, c_char* fmt, c_int opt);
-	[CLink] public static extern c_int mu_header_ex(mu_Context* ctx, c_char* label, c_int opt);
-	[CLink] public static extern c_int mu_begin_treenode_ex(mu_Context* ctx, c_char* label, c_int opt);
+	public static mixin mu_textbox(mu_Context* ctx, char* buf, c_int bufsz)
+	{
+		mu_textbox_ex(ctx, buf, bufsz, 0);
+	}
+
+	public static mixin mu_slider(mu_Context* ctx, mu_Real* value, mu_Real lo, mu_Real hi)
+	{
+		mu_slider_ex(ctx, value, lo, hi, 0, MU_SLIDER_FMT, (.)mu_option.MU_OPT_ALIGNCENTER);
+	}
+
+	public static mixin mu_number(mu_Context* ctx, mu_Real* value, mu_Real step)
+	{
+		mu_number_ex(ctx, value, step, MU_SLIDER_FMT, (.)mu_option.MU_OPT_ALIGNCENTER);
+	}
+
+	public static mixin mu_header(mu_Context* ctx, char* label)
+	{
+		mu_header_ex(ctx, label, 0);
+	}
+
+	public static mixin mu_begin_treenode(mu_Context* ctx, char* label)
+	{
+		mu_begin_treenode_ex(ctx, label, 0);
+	}
+
+	public static mixin mu_begin_window(mu_Context* ctx, char* title, mu_Rect rect)
+	{
+		mu_begin_window_ex(ctx, title, rect, 0);
+	}
+
+	public static mixin mu_begin_panel(mu_Context* ctx, char* name)
+	{
+		mu_begin_panel_ex(ctx, name, 0);
+	}
+
+	[CLink] public static extern void mu_text(mu_Context* ctx, char* text);
+	[CLink] public static extern void mu_label(mu_Context* ctx, char* text);
+	[CLink] public static extern c_int mu_button_ex(mu_Context* ctx, char* label, c_int icon, c_int opt);
+	[CLink] public static extern c_int mu_checkbox(mu_Context* ctx, char* label, c_int* state);
+	[CLink] public static extern c_int mu_textbox_raw(mu_Context* ctx, char* buf, c_int bufsz, mu_Id id, mu_Rect r, c_int opt);
+	[CLink] public static extern c_int mu_textbox_ex(mu_Context* ctx, char* buf, c_int bufsz, c_int opt);
+	[CLink] public static extern c_int mu_slider_ex(mu_Context* ctx, mu_Real* value, mu_Real low, mu_Real high, mu_Real step, char* fmt, c_int opt);
+	[CLink] public static extern c_int mu_number_ex(mu_Context* ctx, mu_Real* value, mu_Real step, char* fmt, c_int opt);
+	[CLink] public static extern c_int mu_header_ex(mu_Context* ctx, char* label, c_int opt);
+	[CLink] public static extern c_int mu_begin_treenode_ex(mu_Context* ctx, char* label, c_int opt);
 	[CLink] public static extern void mu_end_treenode(mu_Context* ctx);
-	[CLink] public static extern c_int mu_begin_window_ex(mu_Context* ctx, c_char* title, mu_Rect rect, c_int opt);
+	[CLink] public static extern c_int mu_begin_window_ex(mu_Context* ctx, char* title, mu_Rect rect, c_int opt);
 	[CLink] public static extern void mu_end_window(mu_Context* ctx);
-	[CLink] public static extern void mu_open_popup(mu_Context* ctx, c_char* name);
-	[CLink] public static extern c_int mu_begin_popup(mu_Context* ctx, c_char* name);
+	[CLink] public static extern void mu_open_popup(mu_Context* ctx, char* name);
+	[CLink] public static extern c_int mu_begin_popup(mu_Context* ctx, char* name);
 	[CLink] public static extern void mu_end_popup(mu_Context* ctx);
-	[CLink] public static extern void mu_begin_panel_ex(mu_Context* ctx, c_char* name, c_int opt);
+	[CLink] public static extern void mu_begin_panel_ex(mu_Context* ctx, char* name, c_int opt);
 	[CLink] public static extern void mu_end_panel(mu_Context* ctx);
 }
